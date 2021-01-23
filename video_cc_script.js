@@ -31,6 +31,25 @@ function loaVideo(width, height, videoId) {
 			}
 		}
 	);
+
+	var xmlhttp = new XMLHttpRequest();
+
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4) {
+			if (xmlhttp.status == 200) { 
+				loadSbvFile(xmlhttp.responseText)
+			} else {
+				console.log("status = " + xmlhttp.status);
+			} 
+		}
+	}
+
+	var url = "https://shamrockrecords.github.io/YouTubeCC/" + videoId + ".sbv" ;
+
+	console.log(url) ;
+
+	xmlhttp.open("GET", url);
+	xmlhttp.send();
 }
 
 function onYouTubeIframeAPIReady() {
@@ -53,12 +72,14 @@ function onPlayerStateChange(event) {
 	if (ytStatus == YT.PlayerState.ENDED) {
 		console.log('ENDED');
 		clearTimeout(timer);
+		subtitleIndex = 0 ;
 	} else if (ytStatus == YT.PlayerState.PLAYING) {
 		console.log('PLAYING');
 		timer = setInterval(onPlaying, 200);
 	} else if (ytStatus == YT.PlayerState.PAUSED) {
 		console.log('PAUSED');
 		clearTimeout(timer);
+		subtitleIndex = 0 ;
 	} else if (ytStatus == YT.PlayerState.BUFFERING) {
 		console.log('BUFFERING');
 	} else if (ytStatus == YT.PlayerState.CUED) {
@@ -73,17 +94,53 @@ function onPlayerError(event) {
 }
 
 function onPlaying() {
-	document.getElementById("currentTime").innerText = ytPlayer.getCurrentTime() ;
+	//document.getElementById("currentTime").innerText = ytPlayer.getCurrentTime() ;
 	document.getElementById("currentSubtitle").innerText = getCurrentSubtitle(ytPlayer.getCurrentTime()) ;
 }
 
-function loadSbvFile(content) {
-	// Implementing...
+var subtitleIndex = 0 ;
+var data = [] ;
+
+function timeToMillisec(time) {
+	var elements = time.split(':') ;
+	var millisec = 0 ;
+
+	millisec += Number(elements[0] * 60 * 60) ;
+	millisec += Number(elements[1] * 60) ;
+	millisec += Number(elements[2]) ;
+
+	return millisec ;
 }
 
-var subtitleIndex = 0 ;
+function loadSbvFile(contents) {
+	data = []
+	subtitleIndex = 0 ;
+
+	contents.replace(
+		/^(\d:.*)\n((?:(?!\d+:\d+:\d+).*\n*)+)$/gm,
+		(string, time, text) =>
+		data.push({
+			time: {
+			start: timeToMillisec(time.split(',')[0]),
+			end: timeToMillisec(time.split(',')[1])
+			},
+			//text: text.replace(/\n/g, ' ').trim()
+			text: text.trim()
+		})
+	)
+}
 
 function getCurrentSubtitle(currentTime) {
 	// Implementing...
-	return "Test" ;
+	var subtitle = "" ;
+
+	for (var i=subtitleIndex; i<data.length; i++) {
+		if (data[i]["time"]["start"] < currentTime && currentTime < data[i]["time"]["end"]) {
+			subtitle = data[i]["text"] ;
+			subtitleIndex = i ;
+			break ;
+		}
+	}
+
+	return subtitle ;
 }

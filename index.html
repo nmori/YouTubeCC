@@ -3,46 +3,44 @@
 <meta charset="UTF-8">
 </head>
 <body>
-	<form name="videoForm">
-	<div id="form_caption" >動画のURL</div>
+	<form name="form">
+		<div id="form_caption" >動画のURL</div>
 		<input id="videoURL" type="text" name="videoURL" value="https://www.youtube.com/watch?v=pu7Ml0zuJHk&t=6243s" />
 		<input id="loadVideoButton" type="button" value="読み込み" name="loadVideoButton" />
-	</div>
-	</form>
-	
-	<div id="target_video"></div>
-	<p id="currentTime"></p>
-	<p id="currentSubtitle"></p>
-	
-	<form name="sbvForm">
-		<p>【ファイルを読み込み】</p>
+		<hr />
+		<div id="form_caption" >ファイルを読み込み</div>
 		<div id="formCaption" >字幕ファイル（.sbv）を選択</div>
 		<input id="selectSbvFile" name="selectSbvFile" type="file" /><br />
 	</form>
+	
+	<hr />
+	<div id="target_video" style="align-content: center;"></div>
+
+	<p id="currentSubtitle" style="text-align: center; font-size: xx-large;"></p>
+	<!--<p id="currentTime"></p>-->
+	
 </body>
 
 <script src="video_cc_script.js"></script>
 <script>
 
-	var videoForm = document.forms.videoForm ;
+	var form = document.forms.form ;
 	
-	videoForm.loadVideoButton.addEventListener('click', function(e) {
+	form.loadVideoButton.addEventListener('click', function(e) {
 		var width = 640 ;
 		var height = 390 ;
-		var videoId = getVideoIdFromYouTubeURL(videoForm.videoURL.value) ;
+		var videoId = getVideoIdFromYouTubeURL(form.videoURL.value) ;
 		
 		loaVideo(width, height, videoId) ;
 	}) ;
 	
-	var sbvForm = document.forms.sbvForm ;
-
-	sbvForm.selectSbvFile.addEventListener('change', function(e) {
-		var result = e.target.files[0];
-		var reader = new FileReader() ;
+	form.selectSbvFile.addEventListener('change', function(e) {
+		var file = e.target.files[0];
+		var fileReader = new FileReader() ;
 	
-		reader.readAsText(result) ;
+		fileReader.readAsText(file) ;
 		
-		reader.addEventListener('load', function() {
+		fileReader.addEventListener('load', function() {
 			var content = reader.result ;
 			
 			loadSbvFile(content) ;

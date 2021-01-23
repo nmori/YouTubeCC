@@ -106,8 +106,6 @@ function loadSbvFileFromURL(url) {
 		}
 	}
 
-	//var url = "https://shamrockrecords.github.io/YouTubeCC/" + videoId + ".sbv" ;
-
 	console.log(url) ;
 
 	xmlhttp.open("GET", url);

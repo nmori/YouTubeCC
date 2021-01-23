@@ -11,7 +11,7 @@
 		<input id="demoButton" type="button" value="設定" name="demoButton" />
 		<hr />
 		<div id="form_caption">■動画のURL</div>
-		<p>YouTubeのURLを指定して読み込みボタンを押してください。動画が読み込まれて表示されます。</p>
+		<p>YouTubeのURL（短縮不可）を指定して読み込みボタンを押してください。動画が読み込まれて表示されます。</p>
 		<input id="videoURL" type="text" name="videoURL" value=""/>
 		<input id="loadVideoButton" type="button" value="読み込み" name="loadVideoButton" />
 		<hr />
@@ -53,7 +53,9 @@
 			var height = 390 ;
 			var videoId = getVideoIdFromYouTubeURL(form.videoURL.value) ;
 		
-			loaVideo(width, height, videoId) ;
+			if (videoId != "") {
+				loaVideo(width, height, videoId) ;
+			}		
 		}
 
 		if (urlParser.searchParams.has("sbv")) {
@@ -69,6 +71,11 @@
 		var width = 640 ;
 		var height = 390 ;
 		var videoId = getVideoIdFromYouTubeURL(form.videoURL.value) ;
+		
+		if (videoId == "") {
+			alert("YouTubeのURLを入力してください。")
+			return ;
+		}
 		
 		loaVideo(width, height, videoId) ;
 	}) ;

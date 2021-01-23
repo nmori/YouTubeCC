@@ -31,25 +31,6 @@ function loaVideo(width, height, videoId) {
 			}
 		}
 	);
-
-	var xmlhttp = new XMLHttpRequest();
-
-	xmlhttp.onreadystatechange = function() {
-		if (xmlhttp.readyState == 4) {
-			if (xmlhttp.status == 200) { 
-				loadSbvFile(xmlhttp.responseText)
-			} else {
-				console.log("status = " + xmlhttp.status);
-			} 
-		}
-	}
-
-	var url = "https://shamrockrecords.github.io/YouTubeCC/" + videoId + ".sbv" ;
-
-	console.log(url) ;
-
-	xmlhttp.open("GET", url);
-	xmlhttp.send();
 }
 
 function onYouTubeIframeAPIReady() {
@@ -110,6 +91,27 @@ function timeToMillisec(time) {
 	millisec += Number(elements[2]) ;
 
 	return millisec ;
+}
+
+function loadSbvFileFromURL(url) {
+	var xmlhttp = new XMLHttpRequest();
+
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4) {
+			if (xmlhttp.status == 200) { 
+				loadSbvFile(xmlhttp.responseText)
+			} else {
+				console.log("status = " + xmlhttp.status);
+			} 
+		}
+	}
+
+	//var url = "https://shamrockrecords.github.io/YouTubeCC/" + videoId + ".sbv" ;
+
+	console.log(url) ;
+
+	xmlhttp.open("GET", url);
+	xmlhttp.send();
 }
 
 function loadSbvFile(contents) {

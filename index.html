@@ -4,12 +4,17 @@
 </head>
 <body>
 	<form name="form">
-		<div id="form_caption" >動画のURL</div>
-		<input id="videoURL" type="text" name="videoURL" value="https://www.youtube.com/watch?v=pu7Ml0zuJHk&t=6243s" />
+		<div id="form_caption">■動画のURL</div>
+		<p>YouTubeのURLを指定して読み込みボタンを押してください。動画が読み込まれて表示されます。</p>
+		<input id="videoURL" type="text" name="videoURL" value="https://www.youtube.com/watch?v=VTyBvfpTcio" style="width:500px;"/>
 		<input id="loadVideoButton" type="button" value="読み込み" name="loadVideoButton" />
 		<hr />
-		<div id="form_caption" >ファイルを読み込み</div>
-		<div id="formCaption" >字幕ファイル（.sbv）を選択</div>
+		<div id="form_caption" >■字幕ファイルを読み込み</div>
+		<p>URLまたはローカルのファイルからsbvファイルを読み込ませます。</p>
+		<div id="form_caption" >URLから</div>
+		<input id="sbvFileURL" type="text" name="sbvFileURL" value="https://shamrockrecords.github.io/YouTubeCC/caption.sbv" style="width:500px;"/>
+		<input id="loadSbvFileButton" type="button" value="読み込み" name="loadSbvFileButton" />
+		<div id="formCaption" >ローカルファイルから</div>
 		<input id="selectSbvFile" name="selectSbvFile" type="file" /><br />
 	</form>
 	
@@ -34,6 +39,10 @@
 		loaVideo(width, height, videoId) ;
 	}) ;
 	
+	form.loadSbvFileButton.addEventListener('click', function(e) {
+		loadSbvFileFromURL(form.sbvFileURL.value) ;
+	}) ;
+
 	form.selectSbvFile.addEventListener('change', function(e) {
 		var file = e.target.files[0];
 		var fileReader = new FileReader() ;
@@ -41,9 +50,9 @@
 		fileReader.readAsText(file) ;
 		
 		fileReader.addEventListener('load', function() {
-			var content = reader.result ;
+			var contents = fileReader.result ;
 			
-			loadSbvFile(content) ;
+			loadSbvFile(contents) ;
 		}) ;
 	})
 </script>

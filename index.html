@@ -3,16 +3,20 @@
 <meta charset="UTF-8">
 </head>
 <body>
+	<h1>YouTubeのURLと字幕ファイル（.sbv）を同期させるプレーヤー</h1>
 	<form name="form">
+		<div id="form_caption">とりあえず動作させてみたい方向けのデモデータ設定</div>
+		<input id="demoButton" type="button" value="設定" name="demoButton" />
+		<hr />
 		<div id="form_caption">■動画のURL</div>
 		<p>YouTubeのURLを指定して読み込みボタンを押してください。動画が読み込まれて表示されます。</p>
-		<input id="videoURL" type="text" name="videoURL" value="https://www.youtube.com/watch?v=VTyBvfpTcio" style="width:500px;"/>
+		<input id="videoURL" type="text" name="videoURL" value="" style="width:500px;"/>
 		<input id="loadVideoButton" type="button" value="読み込み" name="loadVideoButton" />
 		<hr />
 		<div id="form_caption" >■字幕ファイルを読み込み</div>
 		<p>URLまたはローカルのファイルからsbvファイルを読み込ませます。</p>
 		<div id="form_caption" >URLから</div>
-		<input id="sbvFileURL" type="text" name="sbvFileURL" value="https://shamrockrecords.github.io/YouTubeCC/caption.sbv" style="width:500px;"/>
+		<input id="sbvFileURL" type="text" name="sbvFileURL" value="" style="width:500px;"/>
 		<input id="loadSbvFileButton" type="button" value="読み込み" name="loadSbvFileButton" />
 		<div id="formCaption" >ローカルファイルから</div>
 		<input id="selectSbvFile" name="selectSbvFile" type="file" /><br />
@@ -39,6 +43,11 @@
 		loaVideo(width, height, videoId) ;
 	}) ;
 	
+	form.demoButton.addEventListener('click', function(e) {
+		form.videoURL.value = "https://www.youtube.com/watch?v=VTyBvfpTcio" ;
+		form.sbvFileURL.value = "https://shamrockrecords.github.io/YouTubeCC/caption.sbv" ;
+	}) ;
+
 	form.loadSbvFileButton.addEventListener('click', function(e) {
 		loadSbvFileFromURL(form.sbvFileURL.value) ;
 	}) ;

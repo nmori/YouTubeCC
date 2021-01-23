@@ -110,9 +110,15 @@ function loadSbvFileFromURL(url) {
 		}
 	}
 
-	console.log(url) ;
+	var host = location.hostname ;
+	var path = location.pathname ;
+	var protocol = location.protocol ;
 
-	xmlhttp.open("GET", url);
+	var path = document.getElementById("pageURL").innerText = protocol + "//" + host + path + "dl.php?url=" + encodeURIComponent(url) ;
+
+	console.log(path) ;
+
+	xmlhttp.open("GET", path);
 	xmlhttp.send();
 }
 

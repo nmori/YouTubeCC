@@ -83,7 +83,7 @@
 		var path = location.pathname ;
 		var protocol = location.protocol ;
 
-		document.getElementById("pageURL").innerText = protocol + "://" + host + path + "?yt=" + encodeURIComponent(form.videoURL.value) + "&sbv=" + encodeURIComponent(form.sbvFileURL.value) ;
+		document.getElementById("pageURL").innerText = protocol + "//" + host + path + "?yt=" + encodeURIComponent(form.videoURL.value) + "&sbv=" + encodeURIComponent(form.sbvFileURL.value) ;
 	}) ;
 
 	form.loadSbvFileButton.addEventListener('click', function(e) {

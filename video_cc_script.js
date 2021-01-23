@@ -74,4 +74,16 @@ function onPlayerError(event) {
 
 function onPlaying() {
 	document.getElementById("currentTime").innerText = ytPlayer.getCurrentTime() ;
+	document.getElementById("currentSubtitle").innerText = getCurrentSubtitle(ytPlayer.getCurrentTime()) ;
+}
+
+function loadSbvFile(content) {
+	// Implementing...
+}
+
+var subtitleIndex = 0 ;
+
+function getCurrentSubtitle(currentTime) {
+	// Implementing...
+	return "Test" ;
 }

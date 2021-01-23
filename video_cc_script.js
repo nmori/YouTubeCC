@@ -3,7 +3,7 @@ tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-var ytPlayer ;
+var ytPlayer = null ;
 
 function getVideoIdFromYouTubeURL(url) {
 	var urlParser = new URL(url) ;
@@ -16,6 +16,10 @@ function getVideoIdFromYouTubeURL(url) {
 }
 
 function loaVideo(width, height, videoId) {
+	if (ytPlayer != null) {
+		ytPlayer.destroy() ;
+	}
+	
 	ytPlayer = new YT.Player(
 		'target_video',
 			{

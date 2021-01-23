@@ -2,3 +2,17 @@
 body {
     font-family: sans-serif;
 }
+
+#videoView {
+    margin: 0px auto; 
+    text-align: center;
+}
+
+#currentSubtitle {
+    text-align: center; 
+    font-size: xx-large;
+}
+
+#sbvFileURL, #videoURL {
+    width:500px;
+}

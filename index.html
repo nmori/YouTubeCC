@@ -12,28 +12,56 @@
 		<hr />
 		<div id="form_caption">■動画のURL</div>
 		<p>YouTubeのURLを指定して読み込みボタンを押してください。動画が読み込まれて表示されます。</p>
-		<input id="videoURL" type="text" name="videoURL" value="" style="width:500px;"/>
+		<input id="videoURL" type="text" name="videoURL" value=""/>
 		<input id="loadVideoButton" type="button" value="読み込み" name="loadVideoButton" />
 		<hr />
 		<div id="form_caption" >■字幕ファイルを読み込み</div>
 		<p>URLまたはローカルのファイルからsbvファイルを読み込ませます。</p>
 		<div id="form_caption" >URLから</div>
-		<input id="sbvFileURL" type="text" name="sbvFileURL" value="" style="width:500px;"/>
+		<input id="sbvFileURL" type="text" name="sbvFileURL" value=""/>
 		<input id="loadSbvFileButton" type="button" value="読み込み" name="loadSbvFileButton" />
 		<div id="formCaption" >ローカルファイルから</div>
 		<input id="selectSbvFile" name="selectSbvFile" type="file" /><br />
+		<hr />
+		<div id="form_caption">■URLを作成</div>
+		<p>動画のURLを字幕ファイルのURLを引数にしたこの画面へのURLのフルパスを作成できます。これをSNSなどに貼り付けてご利用いただけます。</p>
+		<input id="createURLButton" type="button" value="URLを作成" name="createURLButton" />
+		<p id="pageURL"></p>
 	</form>
 	
 	<hr />
-	<div id="target_video" style="align-content: center;"></div>
+	<table width="100%">
+		<tr><td id="videoView"><div id="target_video"></div></td></tr>
+	</table>
 
-	<p id="currentSubtitle" style="text-align: center; font-size: xx-large;"></p>
+	<p id="currentSubtitle"></p>
+	<hr />
 	<!--<p id="currentTime"></p>-->
 	
 </body>
 
 <script src="video_cc_script.js"></script>
 <script>
+
+	window.onload = function(){
+		var urlParser = new URL(location.href) ;
+
+		if (urlParser.searchParams.has("yt")) {
+			form.videoURL.value = urlParser.searchParams.get("yt") ;
+
+			var width = 640 ;
+			var height = 390 ;
+			var videoId = getVideoIdFromYouTubeURL(form.videoURL.value) ;
+		
+			loaVideo(width, height, videoId) ;
+		}
+
+		if (urlParser.searchParams.has("sbv")) {
+			form.sbvFileURL.value = urlParser.searchParams.get("sbv") ;
+
+			loadSbvFileFromURL(form.sbvFileURL.value) ;
+		}
+	}
 
 	var form = document.forms.form ;
 	
@@ -48,6 +76,14 @@
 	form.demoButton.addEventListener('click', function(e) {
 		form.videoURL.value = "https://www.youtube.com/watch?v=VTyBvfpTcio" ;
 		form.sbvFileURL.value = "https://shamrockrecords.github.io/YouTubeCC/caption.sbv" ;
+	}) ;
+
+	form.createURLButton.addEventListener('click', function(e) {
+		var host = location.hostname ;
+		var path = location.pathname ;
+		var protocol = location.protocol ;
+
+		document.getElementById("pageURL").innerText = protocol + "://" + host + path + "?yt=" + encodeURIComponent(form.videoURL.value) + "&sbv=" + encodeURIComponent(form.sbvFileURL.value) ;
 	}) ;
 
 	form.loadSbvFileButton.addEventListener('click', function(e) {

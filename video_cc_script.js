@@ -114,7 +114,7 @@ function loadSbvFileFromURL(url) {
 	var path = location.pathname ;
 	var protocol = location.protocol ;
 
-	var path = document.getElementById("pageURL").innerText = protocol + "//" + host + path + "dl.php?url=" + encodeURIComponent(url) ;
+	var path = protocol + "//" + host + path + "dl.php?url=" + encodeURIComponent(url) ;
 
 	console.log(path) ;
 
